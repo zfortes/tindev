@@ -1,5 +1,12 @@
+
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+
 import 'package:tinder_dev/widgets/inicio.dart';
+
+import 'bloc/userBloc.dart';
+
+
 
 void main() => runApp(MyApp());
 
@@ -21,7 +28,14 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: Inicio(),
+      home: BlocProvider(
+        blocs: [
+          Bloc((i) => UserBloc()),
+        ],
+        child: Inicio()
+      )
+
+
     );
   }
 }
