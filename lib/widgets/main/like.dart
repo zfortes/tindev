@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:socket_io/socket_io.dart';
+
 
 
 
@@ -146,14 +146,14 @@ class _LikeState extends State<Like> {
   }
 
   conect() async {
-    IO.Socket socket = IO.io('http://localhost:3000');
-    socket.on('connect', (_) {
-      print('connect');
-      socket.emit('msg', 'test');
-    });
-    socket.on('event', (data) => print(data));
-    socket.on('disconnect', (_) => print('disconnect'));
-    socket.on('fromServer', (_) => print(_));
+//    IO.Socket socket = IO.io('http://localhost:3000');
+//    socket.on('connect', (_) {
+//      print('connect');
+//      socket.emit('msg', 'test');
+//    });
+//    socket.on('event', (data) => print(data));
+//    socket.on('disconnect', (_) => print('disconnect'));
+//    socket.on('fromServer', (_) => print(_));
   }
 }
 
