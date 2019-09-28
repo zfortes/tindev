@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'package:socket_io/socket_io.dart';
+
+
 
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +25,7 @@ class _LikeState extends State<Like> {
   @override
   void initState() {
     // TODO: implement initState
+    this.conect();
     this.initListEmpyt();
     this.getUserForMatch();
     super.initState();
@@ -87,7 +91,7 @@ class _LikeState extends State<Like> {
     );
   }
 
-  like() {
+  like() async {
     if (userForMatch.length == 1) {
       setState(() {
         listEmpyt = true;
@@ -97,9 +101,12 @@ class _LikeState extends State<Like> {
         userForMatch.removeAt(0);
       });
     }
+    final response = await http.post("http://127.0.0.1:3333/devs/${userForMatch[0].id}/likes", headers: {"user" : widget.user.id.toString()});
+
+
   }
 
-  dislike() {
+  dislike() async{
     print("fora " + userForMatch.length.toString());
     if (userForMatch.length == 1) {
       print("ëntrou " + userForMatch.length.toString());
@@ -111,6 +118,8 @@ class _LikeState extends State<Like> {
         userForMatch.removeAt(0);
       });
     }
+
+    final response = await http.post("http://127.0.0.1:3333/devs/${userForMatch[0].id}/dislikes", headers: {"user" : widget.user.id.toString()});
   }
 
   getUserForMatch() async {
@@ -120,7 +129,7 @@ class _LikeState extends State<Like> {
     //print(j);
     List<User> users = new List<User>.from(
       j.map((i) => User.fromJson(i)).toList());
-    if (users != null) {
+    if (users.length > 0) {
       setState(() {
         userForMatch = users;
         listEmpyt = false;
@@ -134,6 +143,17 @@ class _LikeState extends State<Like> {
     setState(() {
       listEmpyt = true;
     });
+  }
+
+  conect() async {
+    IO.Socket socket = IO.io('http://localhost:3000');
+    socket.on('connect', (_) {
+      print('connect');
+      socket.emit('msg', 'test');
+    });
+    socket.on('event', (data) => print(data));
+    socket.on('disconnect', (_) => print('disconnect'));
+    socket.on('fromServer', (_) => print(_));
   }
 }
 
