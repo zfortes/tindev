@@ -48,7 +48,6 @@ class _LikeState extends State<Like> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-
                   SizedBox(height: 10,),
                   UserCard(userMatch: userForMatch[0],),
                   Padding(
